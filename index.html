@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Entry Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="dataForm">
+        <label for="partNo">PART NO:</label>
+        <input type="text" id="partNo" name="partNo" required>
+
+        <label for="lot">LOT:</label>
+        <input type="text" id="lot" name="lot" required>
+
+        <label for="description">DESCRIPTION:</label>
+        <input type="text" id="description" name="description" required>
+
+        <label for="stnStr">STN/STR:</label>
+        <input type="text" id="stnStr" name="stnStr" required>
+
+        <label for="qtyUnit">QTY/UNIT:</label>
+        <input type="text" id="qtyUnit" name="qtyUnit" required>
+
+        <label for="qtyReqd">QTY REQD:</label>
+        <input type="text" id="qtyReqd" name="qtyReqd" required>
+
+        <label for="reqdBy">REQD BY:</label>
+        <input type="text" id="reqdBy" name="reqdBy" required>
+
+        <label for="reason">REASON:</label>
+        <input type="text" id="reason" name="reason" required>
+
+        <label for="mhHandledBy">MH HANDLED BY:</label>
+        <input type="text" id="mhHandledBy" name="mhHandledBy" required>
+
+        <label for="remarks">REMARKS:</label>
+        <input type="text" id="remarks" name="remarks" required>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            // Get form data
+            const formData = new FormData(document.getElementById('dataForm'));
+
+            // Convert form data to JSON
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            // Create a CSV string
+            const csvString = Object.values(jsonData).join(',') + '\n';
+
+            // Create a Blob and download it
+            const blob = new Blob([csvString], { type: 'text/csv' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'data_entry.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
